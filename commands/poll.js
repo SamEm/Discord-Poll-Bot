@@ -19,7 +19,7 @@ module.exports = {
         `,
         footer: {
           icon_url: msg.author.avatarURL,
-          text: `Poll created by: **${msg.author.username}#${msg.author.discriminator}**`
+          text: `Poll created by: ${msg.author.username}#${msg.author.discriminator}`
         },
         timestamp: new Date(),
         color: 16750208,
