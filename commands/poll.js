@@ -3,19 +3,29 @@ module.exports = {
   permission: '',
   useInDM: false,
   run: (bot, msg, CommandObj) => {
+    let allLetters = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
     let argSplit = /(?:{)(.+)(?:})(.+)/gi.exec(CommandObj.args);
     let pollName = argSplit[1];
-    let options = /(?:\[)(.+)(?:\])/gi.exec(argSplit[2])[1].split('] [');
-    let option1 = options[0];
-    let option2 = options[1];
+    console.log(argSplit[2])
+
+    let split = argSplit[2].split(/\[(.+?)\]/gi)
+
+    split = split.filter(e => !!e && e !== ' ');
+    let options = [];
+    let usedLetters = [];
+
+    split.forEach((e, i) => {
+      console.log(allLetters[i], e)
+      options.push(`${allLetters[i]} ${e}`);
+      usedLetters.push(allLetters[i]);
+    })
 
     bot.createMessage(msg.channel.id, {
       content: '',
       embed: {
         title: pollName,
         description: `
-          🅰️ ${option1}\n
-          🅱️ ${option2}
+          ${options.join('\n\n')}
         `,
         footer: {
           icon_url: msg.author.avatarURL,
@@ -26,8 +36,9 @@ module.exports = {
       },
     }).then(r => {
       console.log(r.id)
-      bot.addMessageReaction(r.channel.id, r.id, '🅰️')
-      bot.addMessageReaction(r.channel.id, r.id, '🅱️')
+      usedLetters.forEach(e => {
+        bot.addMessageReaction(r.channel.id, r.id, e)
+      })
     }).catch(console.log);
   }
 }
