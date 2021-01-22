@@ -8,7 +8,15 @@ let bot = new Eris(process.env.BOT_TOKEN);
 let startTime = (new Date).getTime();
 let connecting = false;
 
-bot.on('error', console.error);
+const SAFE_TO_IGNORE_ERROR_CODES = [1001, 1006, "ECONNRESET"];
+
+bot.on("error", err => {
+  if (SAFE_TO_IGNORE_ERROR_CODES.includes(err.code)) {
+    return;
+  }
+
+  throw err;
+});
 
 bot.on('ready', () => {
   if (!connecting) {
