@@ -1,7 +1,7 @@
 module.exports = {
   commands: ['!ping'],
-  permission: '',
-  useInDM: true,
+  permission: 'manageMessages', //Remove this for a more per-server approach
+  useInDM: false,
   run: (bot, msg) => {
     let readyTime = (new Date).getTime();
     bot.createMessage(msg.channel.id, {

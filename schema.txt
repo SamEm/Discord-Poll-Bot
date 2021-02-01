@@ -1,0 +1,7 @@
+CREATE TABLE servers (
+  guild_id varchar(30) NOT NULL UNIQUE,
+  poll_roles LONGTEXT,
+  bot_join_date tinytext,
+
+  PRIMARY KEY(guild_id);
+)
