@@ -1,9 +1,9 @@
 require('dotenv').config();
-const path = require('path');
-const fs = require('fs');
+import path from 'path';
+import fs from 'fs';
 const Eris = require('eris');
 
-const mariadb = require('mariadb');
+import mariadb from 'mariadb';
 const pool = mariadb.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -12,7 +12,7 @@ const pool = mariadb.createPool({
 });
 
 pool.getConnection().then(async db_conn => {
-  let bot = new Eris(process.env.BOT_TOKEN);
+  let bot = new Eris(process.env.BOT_TOKEN_TEST);
   require('./utils/mysql_ping')(db_conn);
 
   let startTime = (new Date).getTime();
@@ -20,7 +20,7 @@ pool.getConnection().then(async db_conn => {
 
   const SAFE_TO_IGNORE_ERROR_CODES = [1001, 1006, "ECONNRESET"];
 
-  bot.on("error", err => {
+  bot.on("error", (err:object) => {
     if (SAFE_TO_IGNORE_ERROR_CODES.includes(err.code)) {
       return;
     }
